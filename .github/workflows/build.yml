@@ -1,4 +1,4 @@
-name: fits
+name: dapper
 on:
   push: {}
   release:
@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
   id-token: write
 env:
-  FOLDER: ./cmd ./dapper
+  FOLDER: ./cmd
   # doesn't have an ECR by that name; EXCLUDE is regex and is '|' separated (e.g: a|b|c)
   EXCLUDE: '\?\?\?|dapper-send-test'
 jobs:
@@ -28,7 +28,7 @@ jobs:
           echo "git-rev=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - id: set
         run: |
-          echo "matrix=$(grep -r 'package main' | sort | cut -d ':' -f1 | grep -Ewv "$EXCLUDE" - | grep '.go$' | xargs -n 1 dirname | sort | uniq | grep -v vendor | xargs -i echo './{}' | xargs | yq 'split(" ")|.[]|. as $folder |split("/") | {"target":.[-1],"folder":$folder,"sourcepath":"."} | (select(.folder|contains("dapper"))|.sourcepath)="./dapper"' -ojson | jq -rcM -s '{"include":.}')" >> $GITHUB_OUTPUT
+          echo "matrix=$(grep -r 'package main' | sort | cut -d ':' -f1 | grep -Ewv "$EXCLUDE" - | grep '.go$' | xargs -n 1 dirname | sort | uniq | grep -v vendor | xargs -i echo './{}' | xargs | yq 'split(" ")|.[]|. as $folder |split("/") | {"target":.[-1],"folder":$folder,"sourcepath":"."}' -ojson | jq -rcM -s '{"include":.}')" >> $GITHUB_OUTPUT
       - name: check output
         run: |
           jq . <<< '${{ steps.set.outputs.matrix }}'
@@ -47,34 +47,32 @@ jobs:
           run -d \
           -p 5432:5432 \
           -e POSTGRES_PASSWORD=test \
-          -e POSTGRES_USER=fits_w \
-          -e POSTGRES_DB=fits \
+          -e POSTGRES_USER=dapper_w \
+          -e POSTGRES_DB=dapper \
           --name postgres \
           docker.io/postgis/postgis:15-3.3-alpine
         echo "Waiting until Postgres is ready..."
         until nc -zv -w 1 127.0.0.1 5432; do
-        sleep 1s
+          sleep 1s
         done
         sleep 5s
         docker logs postgres
         echo "Postgres is ready"
-        psql postgresql://fits_w:test@127.0.0.1/fits --file=./etc/ddl/drop-create-users.ddl
-        psql postgresql://fits_w:test@127.0.0.1/fits --file=./etc/ddl/create-db.ddl
-        psql postgresql://fits_w:test@127.0.0.1/fits --file=./etc/ddl/fits-create.ddl
-        psql postgresql://fits_w:test@127.0.0.1/fits --file=./etc/ddl/fits-functions.ddl
-        psql postgresql://fits_w:test@127.0.0.1/fits --file=./etc/ddl/user-permissions.ddl
-        psql postgresql://fits_w:test@127.0.0.1/fits --file=./etc/ddl/fits-test-data.ddl
+        psql postgresql://dapper_w:test@127.0.0.1/dapper --file=./etc/ddl/drop-create-users.ddl
+        psql postgresql://dapper_w:test@127.0.0.1/dapper --file=./etc/ddl/create-db.ddl
+        psql postgresql://dapper_w:test@127.0.0.1/dapper --file=./etc/ddl/create-table.ddl
+        ./etc/scripts/initdb-test.sh dapper_w test
   go-build-dapper:
     if: ${{ contains(fromJSON('["workflow_call", "push", "pull_request"]'), github.event_name) && startsWith(github.repository, 'GeoNet/') != false }}
     uses: GeoNet/Actions/.github/workflows/reusable-go-build-smoke-test.yml@main
     with:
-      working-directory: ./dapper
+      working-directory: ./
       paths: |
         ./cmd/...
       setup: |
         sudo apt-get update
         sudo apt-get install -y xsltproc
-  build:
+  build-ecr:
     needs: prepare
     strategy:
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}

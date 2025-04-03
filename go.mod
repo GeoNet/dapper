@@ -1,4 +1,4 @@
-module github.com/GeoNet/fits/dapper
+module github.com/GeoNet/dapper
 
 go 1.23
 

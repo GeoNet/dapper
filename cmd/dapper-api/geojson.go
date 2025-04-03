@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/GeoNet/fits/dapper/dapperlib"
+	"github.com/GeoNet/dapper/dapperlib"
 )
 
 type geoJSON struct {

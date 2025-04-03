@@ -10,8 +10,21 @@ import (
 	"github.com/GeoNet/kit/cfg"
 )
 
+func setTestEnvVariables(t *testing.T) {
+	t.Setenv("DB_HOST", "localhost")
+	t.Setenv("DB_CONN_TIMEOUT", "5")
+	t.Setenv("DB_USER", "dapper_w")
+	t.Setenv("DB_PASSWD", "test")
+	t.Setenv("DB_NAME", "dapper")
+	t.Setenv("DB_SSLMODE", "disable")
+	t.Setenv("DB_MAX_IDLE_CONNS", "30")
+	t.Setenv("DB_MAX_OPEN_CONNS", "30")
+	t.Setenv("DB_CONN_TIMEOUT", "5")
+	t.Setenv("AWS_REGION", "ap-southeast-2")
+}
+
 func TestImport(t *testing.T) {
-	setup()
+	setup(t)
 	defer teardown()
 
 	b, err := os.ReadFile("testdata/test.pb")
@@ -25,7 +38,8 @@ func TestImport(t *testing.T) {
 	}
 }
 
-func setup() {
+func setup(t *testing.T) {
+	setTestEnvVariables(t)
 	var err error
 	p, err := cfg.PostgresEnv()
 	if err != nil {

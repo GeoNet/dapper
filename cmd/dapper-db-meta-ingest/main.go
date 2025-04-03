@@ -14,7 +14,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/GeoNet/fits/dapper/dapperlib"
+	"github.com/GeoNet/dapper/dapperlib"
 	"github.com/GeoNet/kit/aws/s3"
 	"github.com/GeoNet/kit/aws/sqs"
 	"github.com/GeoNet/kit/cfg"

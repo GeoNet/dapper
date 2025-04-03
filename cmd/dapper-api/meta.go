@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/GeoNet/fits/dapper/dapperlib"
-	"github.com/GeoNet/fits/dapper/internal/valid"
+	"github.com/GeoNet/dapper/dapperlib"
+	"github.com/GeoNet/dapper/internal/valid"
 	"github.com/GeoNet/kit/weft"
 	"github.com/lib/pq"
 	"google.golang.org/protobuf/proto"

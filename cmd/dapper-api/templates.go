@@ -7,7 +7,7 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/GeoNet/fits/dapper/internal/valid"
+	"github.com/GeoNet/dapper/internal/valid"
 	footer "github.com/GeoNet/kit/ui/geonet_footer"
 	header "github.com/GeoNet/kit/ui/geonet_header_basic"
 	"github.com/GeoNet/kit/weft"

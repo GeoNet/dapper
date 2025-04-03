@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/GeoNet/fits/dapper/dapperlib"
+	"github.com/GeoNet/dapper/dapperlib"
 	"github.com/GeoNet/kit/aws/s3"
 	"github.com/GeoNet/kit/cfg"
 	"github.com/GeoNet/kit/metrics"

@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/GeoNet/fits/dapper/internal/valid"
+	"github.com/GeoNet/dapper/internal/valid"
 )
 
 var bad = &valid.Error{Code: http.StatusBadRequest}

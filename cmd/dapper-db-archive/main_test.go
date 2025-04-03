@@ -11,9 +11,22 @@ import (
 	_ "github.com/lib/pq"
 )
 
+func setTestEnvVariables(t *testing.T) {
+	t.Setenv("DB_HOST", "localhost")
+	t.Setenv("DB_CONN_TIMEOUT", "5")
+	t.Setenv("DB_USER", "dapper_w")
+	t.Setenv("DB_PASSWD", "test")
+	t.Setenv("DB_NAME", "dapper")
+	t.Setenv("DB_SSLMODE", "disable")
+	t.Setenv("DB_MAX_IDLE_CONNS", "30")
+	t.Setenv("DB_MAX_OPEN_CONNS", "30")
+	t.Setenv("DB_CONN_TIMEOUT", "5")
+	t.Setenv("AWS_REGION", "ap-southeast-2")
+}
+
 // Note: Must ran dapper/etc/script/initdb-test.sh before running these tests
 func TestSQL(t *testing.T) {
-	setup()
+	setup(t)
 	defer teardown()
 
 	if err := checkQuery(sqlSelectArchive, 5, "test_db_archive"); err != nil {
@@ -45,7 +58,8 @@ func checkQuery(sql string, nexp int, args ...interface{}) error {
 	return nil
 }
 
-func setup() {
+func setup(t *testing.T) {
+	setTestEnvVariables(t)
 	var err error
 	p, err := cfg.PostgresEnv()
 	if err != nil {
