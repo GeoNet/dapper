@@ -1,0 +1,5 @@
+CREATE DATABASE dapper WITH OWNER dapperadmin TEMPLATE template0 ENCODING 'UTF8' ;
+ALTER DATABASE dapper SET timezone TO UTC;
+
+GRANT CONNECT ON DATABASE dapper TO dapper_w;
+GRANT CONNECT ON DATABASE dapper TO dapper_r;

@@ -1,0 +1,60 @@
+.panel-height {
+    height: 150px;
+    overflow-y: scroll;
+}
+
+.output {
+    padding: 9.5px;
+    line-height: 1.42857143;
+    color: #333;
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 30px !important;
+    margin-top: 30px !important;
+    list-style: none;
+    background-color: #f5f5f5;
+    border-radius: 4px;
+}
+
+/* START - Extra CSS for GeoNet Basic Header */
+
+.external-link::after {
+    font-family:FontAwesome;
+    content:"\f08e";
+    font-size:12px;
+    color:#fff;
+    vertical-align:middle;
+    padding: 0px 5px 0px 5px;
+    display: inline-block;
+    margin-bottom: 2px;
+  }
+
+  /* Bootstrap overrides - this should be changed in the main Bootstrap file at some point*/
+  @media (min-width: 768px){
+    .navbar-toggler {
+        margin-top: 0px;
+    }
+  }
+
+  /* END */
+
+  /* START - Extra CSS for GeoNet Footer */
+
+  /* Bootstrap overrides - this should be changed in the main Bootstrap file at some point*/
+  #footer .row {
+    width: auto !important;
+  }
+  .footer {
+    margin-top: 20px;
+    padding: 20px 0 20px;
+    border-top: 1px solid #e5e5e5;
+  }
+
+  /* END */

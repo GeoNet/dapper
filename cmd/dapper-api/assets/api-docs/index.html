@@ -1,0 +1,72 @@
+{{define "base"}}
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Dapper API</title>
+    {{subResource "/assets/css/bootstrap.v5.min.css"}}
+    {{subResource "/assets/css/apidocs.css"}}
+    {{subResource "/assets/dependencies/@fortawesome/fontawesome-free/css/all.min.css" }}
+<body>
+
+{{.Header}}
+
+<div class="container-fluid">
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/api-docs">Index</a></li>
+        </ol>
+    </nav>
+
+    <h1 class="page-header">GeoNet API</h1>
+    <p class="lead">Welcome to the Dapper API.</p>
+
+    <p>The GeoNet project makes all its data and images freely available.
+        Please ensure you have read and understood our
+        <a href="https://www.geonet.org.nz/policy">Data Policy</a> and <a href="https://www.geonet.org.nz/disclaimer">Disclaimer</a>
+        before using any of these services.</p>
+
+    <p>The DAPPER API provides access to records and associated meta data for a given domain.</p>
+
+    <h3 class="page-header">Endpoints</h3>
+
+    <p>The following endpoints are available:</p>
+    <ul class=>
+
+        <li><a href="/api-docs/endpoint/data">/data</a> - Look up record data.</li>
+
+        <li><a href="/api-docs/endpoint/meta">/meta</a> - Look up record metadata.</li>
+
+    </ul>
+
+    <h3 class="page-header">Formatting Output JSON</h3>
+
+    <p>We use the <a href="https://github.com/stedolan/jq">jq</a> command for JSON pretty printing etc. A curl command
+        might
+        look like:</p>
+
+    <pre class="output">curl "http://...API-QUERY..." | jq .</pre>
+
+    <h3 class="page-header">Compression</h3>
+
+    <p>The response for a query can be compressed. If your client can handle a compressed response then the
+        reduced download size is a great benifit. Gzip compression is supported. You can request a compressed response
+        by including <code>gzip</code> in your <code>Accept-Encoding</code> header.</p>
+
+    <h3 class="page-header">Bugs</h3>
+
+
+    <p>If you believe you have found a bug please <a href="https://www.geonet.org.nz/contact">contact us</a> detailing the issue.</p>
+
+    {{.Footer}}
+
+</div>
+
+    {{subResource "/assets/dependencies/bootstrap/bootstrap.bundle.min.js"}}
+
+</body>
+</html>
+{{end}}
+
