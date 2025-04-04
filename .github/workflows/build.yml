@@ -66,7 +66,6 @@ jobs:
     if: ${{ contains(fromJSON('["workflow_call", "push", "pull_request"]'), github.event_name) && startsWith(github.repository, 'GeoNet/') != false }}
     uses: GeoNet/Actions/.github/workflows/reusable-go-build-smoke-test.yml@main
     with:
-      working-directory: ./
       paths: |
         ./cmd/...
       setup: |
